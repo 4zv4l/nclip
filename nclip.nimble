@@ -9,5 +9,5 @@ srcDir        = "src"
 
 # Dependencies
 
-requires "nim >= 1.6.12"
+requires "nim >= 1.4.0"
 requires "winim == 3.9.0"
