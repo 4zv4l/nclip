@@ -11,7 +11,7 @@ proc GlobalAlloc*(str: cstring): HGLOBAL =
     if hdst == FALSE: return 0
     let dst = GlobalLock(hdst)
     if dst == NULL: return 0
-    copyMem(cast[pointer](dst), addr str[0], len(str)+1)
+    copyMem(cast[pointer](dst), unsafeAddr str[0], len(str)+1)
     GlobalUnlock(hdst)
     return hdst
 
@@ -30,7 +30,7 @@ proc GetFilesFromClipboard*(files: HANDLE): string =
     let nfiles = DragQueryFile(hdrop, cast[UINT](0xFFFFFFFF), cast[LPSTR](0), 0)
     var filename = newString(260)
     for i in 0..<nfiles:
-        let len = DragQueryFile(hdrop, i, cast[LPSTR](addr filename[0]), filename.len.UINT)
+        let len = DragQueryFile(hdrop, i, cast[LPSTR](unsafeAddr filename[0]), filename.len.UINT)
         result &= filename[0..len-1] & ":::::"
     result.removeSuffix(":::::")
     GlobalUnlock(files)
